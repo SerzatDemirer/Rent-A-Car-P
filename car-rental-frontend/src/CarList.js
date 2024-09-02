@@ -30,7 +30,7 @@ const CarList = () => {
     try {
       await axios.delete(`http://localhost:3001/cars/${carId}`);
       alert("Car deleted successfully!");
-      fetchCars(); // Refresh the car list after deletion
+      fetchCars();
     } catch (err) {
       setError("Error deleting car: " + err.message);
     }
@@ -38,22 +38,35 @@ const CarList = () => {
 
   const handleCloseEdit = () => {
     setSelectedCarId(null);
-    fetchCars(); // Refresh the car list after editing
+    fetchCars();
   };
 
   return (
-    <div>
-      <h2>Car List</h2>
-      {error && <p>{error}</p>}
-      <ul>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Car List</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      <ul className="space-y-2">
         {cars.map((car) => (
-          <li key={car.CarID}>
-            {car.Make} {car.Model} ({car.Year}) - ${car.PricePerDay} per day
-            <button onClick={() => handleEditClick(car.CarID)}>Edit</button>
-            <button onClick={() => handleDeleteClick(car.CarID)}>
-              Delete
-            </button>{" "}
-            {/* Add Delete Button */}
+          <li key={car.CarID} className="bg-white p-4 rounded shadow">
+            <div className="flex justify-between items-center">
+              <div>
+                {car.Make} {car.Model} ({car.Year}) - ${car.PricePerDay} per day
+              </div>
+              <div>
+                <button
+                  onClick={() => handleEditClick(car.CarID)}
+                  className="mr-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(car.CarID)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
